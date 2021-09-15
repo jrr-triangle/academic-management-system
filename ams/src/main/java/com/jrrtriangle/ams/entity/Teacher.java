@@ -45,7 +45,7 @@ public class Teacher {
             name="userId",
             referencedColumnName = "userId"
     )
-    private User user;
+    private UserEntity user;
 
 
 }

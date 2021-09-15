@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,8 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserService userService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @PostMapping("/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
         System.out.println("it is workding");
@@ -38,8 +41,4 @@ public class AuthController {
         return new JwtResponse(token);
     }
 
-    @GetMapping("/getauth")
-    public String getAuth(){
-        return "Getting from auth";
-    }
 }

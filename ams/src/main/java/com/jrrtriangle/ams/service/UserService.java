@@ -1,19 +1,11 @@
 package com.jrrtriangle.ams.service;
 
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.jrrtriangle.ams.dto.UserDto;
+import com.jrrtriangle.ams.entity.UserEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
-public class UserService implements UserDetailsService {
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        return new User("admin","password",new ArrayList<>());
-    }
+public interface UserService extends UserDetailsService {
+    public UserDto createUser(UserEntity user);
 }

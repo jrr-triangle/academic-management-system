@@ -10,12 +10,12 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
-@Entity
+@Entity(name="user")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User implements Serializable {
+public class UserEntity implements Serializable {
     @Id
     @SequenceGenerator(
             name = "user_sequence",

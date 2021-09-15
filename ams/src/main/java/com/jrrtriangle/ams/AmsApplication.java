@@ -14,7 +14,9 @@ public class AmsApplication {
 		SpringApplication.run(AmsApplication.class, args);
 	}
    @Bean
-	public PasswordEncoder passwordEncoder(){
-		return NoOpPasswordEncoder.getInstance();
+	public BCryptPasswordEncoder passwordEncoder(){
+		return new BCryptPasswordEncoder();
 	}
+
+
 }

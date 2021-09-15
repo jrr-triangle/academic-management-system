@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 
@@ -27,6 +26,7 @@ public class Role {
             generator = "role_sequence"
     )
     private Long roleId;
+    private String role;
 
     @ManyToMany(
             cascade = CascadeType.ALL,
@@ -44,7 +44,7 @@ public class Role {
             )
 
     )
-    private Set<User> users;
+    private Set<UserEntity> users;
 
 
     

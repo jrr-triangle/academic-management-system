@@ -34,5 +34,5 @@ public class Staff {
             name="userId",
             referencedColumnName = "userId"
     )
-    private User user;
+    private UserEntity user;
 }
