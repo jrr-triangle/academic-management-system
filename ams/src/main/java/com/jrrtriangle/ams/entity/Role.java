@@ -30,24 +30,16 @@ public class Role {
 
     @ManyToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(
                     name = "roleId",
                     referencedColumnName = "roleId"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "UserId",
-                    referencedColumnName = "UserId"
             )
-
     )
     private Set<UserEntity> users;
-
-
-    
 
 
 }

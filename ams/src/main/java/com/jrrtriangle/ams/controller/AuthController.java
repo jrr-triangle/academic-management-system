@@ -24,14 +24,10 @@ public class AuthController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @PostMapping("/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
-        System.out.println("it is workding");
+        System.out.println("it is workding "+jwtRequest.getUsername());
         try{
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            jwtRequest.getUsername(),
-                            jwtRequest.getPassword()
-                    )
-            );
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(),
+                    jwtRequest.getPassword()));
         }catch (BadCredentialsException e){
             throw new Exception("INVALID_CREDENTIALS",e);
         }

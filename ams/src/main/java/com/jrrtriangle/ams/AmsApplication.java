@@ -14,7 +14,7 @@ public class AmsApplication {
 		SpringApplication.run(AmsApplication.class, args);
 	}
    @Bean
-	public BCryptPasswordEncoder passwordEncoder(){
+	public BCryptPasswordEncoder bCryptPasswordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
 

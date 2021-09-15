@@ -1,9 +1,6 @@
 package com.jrrtriangle.ams.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -37,19 +34,9 @@ public class UserEntity implements Serializable {
     private String password;
 
     @ManyToMany(
+            mappedBy = "users",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
-    )
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(
-                    name = "UserId",
-                    referencedColumnName = "UserId"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "roleId",
-                    referencedColumnName = "roleId"
-            )
 
     )
     private Set<Role> roles;
