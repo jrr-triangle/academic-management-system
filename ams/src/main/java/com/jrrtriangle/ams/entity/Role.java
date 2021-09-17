@@ -1,11 +1,13 @@
 package com.jrrtriangle.ams.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 
@@ -27,19 +29,21 @@ public class Role {
     )
     private Long roleId;
     private String role;
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+//    private Set<UserEntity> users;
 
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
+    @ManyToMany( cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_role",
+            name = "roles_privileges",
             joinColumns = @JoinColumn(
-                    name = "roleId",
-                    referencedColumnName = "roleId"
+                    name = "role_id", referencedColumnName = "roleId"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "privilegesId",
+                    referencedColumnName = "id"
             )
-    )
-    private Set<UserEntity> users;
+         )
+    private Set<Privilege> privileges;
 
 
 }

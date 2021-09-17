@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -33,11 +34,20 @@ public class UserEntity implements Serializable {
 
     private String password;
 
-    @ManyToMany(
-            mappedBy = "users",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
 
+    @ManyToMany(
+            cascade = CascadeType.ALL,fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(
+                    name = "userId",
+                    referencedColumnName = "userId"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "roleId",
+                    referencedColumnName = "roleId"
+            )
     )
     private Set<Role> roles;
 

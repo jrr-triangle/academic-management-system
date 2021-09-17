@@ -53,6 +53,10 @@ public class JwtUtility implements Serializable {
     }
     public Boolean validateToken(String token,UserDetails userDetails){
         final String username = getUsernameFromToken(token);
+        boolean isExpired=isTokenExpired(token);
+        if(isExpired){
+            throw new RuntimeException("Toke has been expired");
+        }
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 

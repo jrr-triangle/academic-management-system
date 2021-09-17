@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
             }
             Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
             userEntity.getRoles().forEach(role->authorities.add(new SimpleGrantedAuthority(role.getRole())));
+
             return new User(userEntity.getEmail(),userEntity.getPassword(), authorities);
        // return new User("raihan","password",  new ArrayList<>());
 
