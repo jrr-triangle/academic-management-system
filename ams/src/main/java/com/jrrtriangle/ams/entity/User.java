@@ -1,5 +1,6 @@
 package com.jrrtriangle.ams.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,23 +38,33 @@ public class User implements Serializable {
 
     private String password;
 
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
-    )
+//    @ManyToMany(
+//
+//            cascade = CascadeType.MERGE
+//
+//    )
+//    @JoinTable(
+//            name = "user_role",
+//            joinColumns = @JoinColumn(
+//                    name = "UserId",
+//                    referencedColumnName = "UserId"
+//            ),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "roleId",
+//                    referencedColumnName = "roleId"
+//            )
+//
+//    )
+//    private Set<Role> roles;
+
+    @JsonIgnore
+    @ManyToMany
     @JoinTable(
             name = "user_role",
-            joinColumns = @JoinColumn(
-                    name = "UserId",
-                    referencedColumnName = "UserId"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "roleId",
-                    referencedColumnName = "roleId"
-            )
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "UserId")},
+            inverseJoinColumns = {@JoinColumn(name = "role_name", referencedColumnName = "roleId")})
+    private Set<Role> roles = new HashSet<>();
 
-    )
-    private Set<Role> roles;
 
 
     @OneToOne(mappedBy = "user")
@@ -64,4 +76,8 @@ public class User implements Serializable {
     @OneToOne(mappedBy = "user")
     private Teacher teacher;
 
+    @Override
+    public String toString() {
+        return "User{}";
+    }
 }

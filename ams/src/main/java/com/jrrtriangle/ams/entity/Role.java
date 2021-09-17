@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Role {
+public class Role implements Serializable {
     @Id
     @SequenceGenerator(
             name = "role_sequence",
@@ -28,26 +29,27 @@ public class Role {
     )
     private Long roleId;
 
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
-    )
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(
-                    name = "roleId",
-                    referencedColumnName = "roleId"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "UserId",
-                    referencedColumnName = "UserId"
-            )
+    private String rolename;
 
-    )
-    private Set<User> users;
-
-
-    
+//    @ManyToMany(
+//    )
+//    @JoinTable(
+//            name = "user_role",
+//            joinColumns = @JoinColumn(
+//                    name = "roleId",
+//                    referencedColumnName = "roleId"
+//            ),
+//            inverseJoinColumns = @JoinColumn(
+//                    name = "UserId",
+//                    referencedColumnName = "UserId"
+//            )
+//
+//    )
+//    private Set<User> users;
 
 
+    @Override
+    public String toString() {
+        return "Role{}";
+    }
 }
