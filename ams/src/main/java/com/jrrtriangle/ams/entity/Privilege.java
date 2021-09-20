@@ -17,11 +17,17 @@ import java.util.Set;
 @Builder
 public class Privilege {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "privilege_sequence",
+            sequenceName = "privilege_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "privilege_sequence"
+    )
     private Long id;
     private String name;
     private String endpoint;
-//    @JsonIgnore
-//    @ManyToMany(mappedBy = "privileges",cascade = CascadeType.ALL)
-//    private Set<Role> roles;
+    private String method;
 }

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService extends UserDetailsService {
     public UserDto createUser(UserEntity user);
+    UserEntity findUserById(Long id);
 }

@@ -1,7 +1,6 @@
 package com.jrrtriangle.ams.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TestController {
@@ -25,5 +24,26 @@ public class TestController {
     @GetMapping("/testing4")
     public String testing4(){
         return "Testing4  the spring initials by raihan";
+    }
+
+
+    @DeleteMapping("/testing/deleting")
+    public String deleting(){
+        return "Testing deleting  the spring initials by raihan";
+    }
+
+    @PutMapping("/testing/editing")
+    public String editing(){
+        return "Testing editing  the spring initials by raihan";
+    }
+
+    @PostMapping("/testing/creating")
+    public String creating(){
+        return "Testing creating  the spring initials by raihan";
+    }
+
+    @GetMapping("/testing/view")
+    public String view(){
+        return "Testing view  the spring initials by raihan";
     }
 }

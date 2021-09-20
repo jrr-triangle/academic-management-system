@@ -5,4 +5,5 @@ import com.jrrtriangle.ams.entity.Role;
 public interface RoleService {
     Role addRole(Role role);
     public Role findRoleByRole(String role);
+    Role findByRoleId(Long id);
 }

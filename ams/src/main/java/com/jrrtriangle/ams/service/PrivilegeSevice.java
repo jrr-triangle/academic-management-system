@@ -5,4 +5,5 @@ import com.jrrtriangle.ams.entity.Privilege;
 public interface PrivilegeSevice {
     Privilege createPrivilege(Privilege privilege);
     Privilege findPrivilegByName(String name);
+    Privilege findById(Long id);
 }

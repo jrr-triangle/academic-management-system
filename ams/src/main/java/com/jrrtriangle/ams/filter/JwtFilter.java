@@ -44,14 +44,18 @@ public class JwtFilter extends OncePerRequestFilter {
         if(username !=null && SecurityContextHolder.getContext().getAuthentication() ==null){
             UserDetails userDetails = userService.loadUserByUsername(username);
             String requestUrl = request.getRequestURI();
+            String requestMethod = request.getMethod();
             System.out.println("Printing the requested  uri: "+requestUrl);
+            System.out.println("Printing the requested  method: "+requestMethod);
             boolean access = false;
             for(GrantedAuthority grantedAuthority:userDetails.getAuthorities()){
-                Set<Privilege> privilege = roleService.findRoleByRole(grantedAuthority
+                Set<Privilege> privileges = roleService.findRoleByRole(grantedAuthority
                         .getAuthority()).getPrivileges();
-                for(Privilege p:privilege){
-                    System.out.println("Privileged url :"+p.getEndpoint().toString());
-                    if(p.getEndpoint().toString().equals(requestUrl)){
+                for(Privilege privilege:privileges){
+                    System.out.println("Privileged url :"+privilege.getEndpoint().toString());
+                    System.out.println("Privileged method :"+privilege.getMethod());
+                    if(privilege.getEndpoint().toString().equalsIgnoreCase(requestUrl) &&
+                            privilege.getMethod().equalsIgnoreCase( requestMethod)){
                         access=true;
                         break;
                     }

@@ -26,24 +26,44 @@ public class JwtUtility implements Serializable {
         return getClaimFromToken(token,Claims::getExpiration);
     }
     private <T> T getClaimFromToken(String token, Function<Claims,T> claimResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
-        return claimResolver.apply(claims);
+
+        try {
+            final Claims claims = getAllClaimsFromToken(token);
+
+            return claimResolver.apply(claims);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        try{
+            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     private Boolean isTokenExpired(String token){
-        final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+       try{
+           final Date expiration = getExpirationDateFromToken(token);
+           return expiration.before(new Date());
+       }catch (Exception e){
+           throw new RuntimeException(e);
+       }
+
     }
 
 
 
     public String genrateToken(UserDetails userDetails){
-        Map<String,Object> claims = new HashMap<>();
-        return doGenerateToken(claims,userDetails.getUsername());
+        try{
+            Map<String,Object> claims = new HashMap<>();
+            return doGenerateToken(claims,userDetails.getUsername());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
     private String doGenerateToken(Map<String,Object> claims,String subject){
         return Jwts.builder().setClaims(claims).setSubject(subject)

@@ -1,10 +1,12 @@
 package com.jrrtriangle.ams.service.impl;
 
 import com.jrrtriangle.ams.dto.UserDto;
+import com.jrrtriangle.ams.entity.Privilege;
 import com.jrrtriangle.ams.entity.Role;
 import com.jrrtriangle.ams.entity.UserEntity;
 import com.jrrtriangle.ams.repository.RoleRepository;
 import com.jrrtriangle.ams.repository.UserRepository;
+import com.jrrtriangle.ams.service.PrivilegeSevice;
 import com.jrrtriangle.ams.service.RoleService;
 import com.jrrtriangle.ams.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -26,6 +28,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleService roleService;
     @Autowired
+    private PrivilegeSevice privilegeSevice;
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -44,15 +48,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserEntity user) {
         if(userRepository.findByEmail(user.getEmail())!=null) throw new RuntimeException("User already exists");
-       Role findRole = roleService.findRoleByRole("USER");
-       if(findRole==null){
-           Role newRole = Role.builder()
-                   .role("USER")
-                   .build();
-           findRole = roleService.addRole(newRole);
-       }
+
         Set<Role> roles = new HashSet<>();
-        roles.add(findRole);
+       if(user.getRoles()!=null && user.getRoles().toArray().length>0){
+           user.getRoles().forEach(role -> {
+               Role findRole = roleService.findByRoleId(role.getRoleId());
+               roles.add(findRole);
+           });
+       }
+       else {
+            Role newRole = roleService.findByRoleId(2L);
+            roles.add( roleService.addRole(newRole));
+        }
         user.setRoles(roles);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         UserEntity userEntity = userRepository.save(user);
@@ -60,4 +67,17 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(userEntity,userDto);
         return userDto;
     }
+
+    @Override
+    public UserEntity findUserById(Long id) {
+        Optional<UserEntity> userEntity = userRepository.findById(id);
+        if(userEntity.isPresent()){
+            return userEntity.get();
+        }else{
+            throw new RuntimeException("User not found");
+        }
+
+    }
+
+
 }
