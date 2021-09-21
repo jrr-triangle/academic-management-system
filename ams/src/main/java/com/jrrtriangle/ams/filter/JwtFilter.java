@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -54,8 +56,14 @@ public class JwtFilter extends OncePerRequestFilter {
                 for(Privilege privilege:privileges){
                     System.out.println("Privileged url :"+privilege.getEndpoint().toString());
                     System.out.println("Privileged method :"+privilege.getMethod());
-                    if(privilege.getEndpoint().toString().equalsIgnoreCase(requestUrl) &&
-                            privilege.getMethod().equalsIgnoreCase( requestMethod)){
+                    String endPoint = privilege.getEndpoint()
+                            .replaceAll("\\*+",".*")
+                            .replaceAll("(?ism)\\{\\w+\\}","\\\\w+");
+                    System.out.println(endPoint);
+                    Pattern p = Pattern.compile("(?ism)"+endPoint);//. represents single character
+                    Matcher m = p.matcher(requestUrl);
+                    if(m.matches() &&
+                            privilege.getMethod().equalsIgnoreCase(requestMethod)){
                         access=true;
                         break;
                     }

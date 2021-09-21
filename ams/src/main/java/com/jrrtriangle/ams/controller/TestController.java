@@ -46,4 +46,15 @@ public class TestController {
     public String view(){
         return "Testing view  the spring initials by raihan";
     }
+    @PutMapping("/testing/update/{id}")
+    public String update(@PathVariable String id){
+        return "Testing editing  the" +
+                " spring initials by raihan ID: "+id;
+    }
+
+    @PutMapping("/testing/update/{id}/{age}")
+    public String update(@PathVariable String id,@PathVariable int age){
+        return "Testing editing  the" +
+                " spring initials by raihan ID: "+id+" age: "+age;
+    }
 }
