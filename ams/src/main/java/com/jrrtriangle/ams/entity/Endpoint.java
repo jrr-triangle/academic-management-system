@@ -32,7 +32,7 @@ public class Endpoint {
     private String endpointname;
 
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(
             name = "endpoint_role",
             joinColumns = {@JoinColumn(name = "endpointId", referencedColumnName = "endpointId")},

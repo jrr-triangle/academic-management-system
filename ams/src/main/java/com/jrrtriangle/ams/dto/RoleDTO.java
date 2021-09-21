@@ -9,13 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResponseDTO {
+public class RoleDTO {
 
-    private boolean isSuccess;
-    private String message;
-    private Object data;
-    private String val;
-    private String jwt;
+    private Long roleId;
 
+    private String rolename;
 }
-

@@ -51,16 +51,10 @@ public class AuthorityService {
     }
 
     @CacheEvict(value = "getAuthorityCache", key = "#endpoint.endpointname")
-    public Set<String> getAuthorityRefresh(Endpoint endpoint) {
+    public void getAuthorityRefresh(Endpoint endpoint) {
 
         System.out.println("getAuthorityCachePut entered");
-        Set<String> auth = new HashSet<>();
 
-        Set<Role> allrole = endpoint.getRoles();
-        for(Role role: allrole) {
-            auth.add(role.getRolename());
-        }
-        return auth;
     }
 
 }

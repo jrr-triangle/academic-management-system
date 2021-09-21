@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true,
@@ -25,6 +28,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     MyUserDetailsService myuserDetailsService;
+
+    final String[] permitted = new String[]{"/registration/newuser",
+            "/registration/login",
+            "/addupdaterole","/addupdateendpoint"};
 
     @Bean
     public JwtRequestFilter authenticationJwtTokenFilter() {
@@ -55,8 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers("/registration/newuser").permitAll()
-                .antMatchers("/registration/login").permitAll()
+                .antMatchers(permitted).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

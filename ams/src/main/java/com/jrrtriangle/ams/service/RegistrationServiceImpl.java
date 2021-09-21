@@ -26,13 +26,10 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public boolean createUser(UserDTO userDTO) throws Exception{
         try {
-            boolean status = checkExist(userDTO.getEmail());
-            if (status)
-                return false;
-            else {
+
                 repository.save(convertToEntity(userDTO));
                 return true;
-            }
+
         }
         catch (Exception e) {
             System.out.println(e);
