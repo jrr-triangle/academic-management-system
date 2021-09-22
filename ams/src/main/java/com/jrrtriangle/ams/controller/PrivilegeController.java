@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PrivilegeController {
     @Autowired
     private PrivilegeSevice privilegeSevice;
-
     @PostMapping
     public ResponseEntity<Privilege> createPrivilege(@RequestBody Privilege privilege){
         return new ResponseEntity<Privilege>(privilegeSevice.createPrivilege(privilege), HttpStatus.CREATED);
