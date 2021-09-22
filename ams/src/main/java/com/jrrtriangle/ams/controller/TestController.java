@@ -46,6 +46,14 @@ public class TestController {
     public String view(){
         return "Testing view  the spring initials by raihan";
     }
+    @GetMapping("/testing/param")
+    public String viewparam(@RequestParam("p") String p){
+        return "Testing view  the spring initials by raihan: "+p;
+    }
+    @GetMapping("/testing/param?p={p}andq={q}")
+    public String viewparammore(@RequestParam("p") String p,@RequestParam("q") String q){
+        return "Testing view  the spring initials by raihan: "+p+" and "+q;
+    }
     @PutMapping("/testing/update/{id}")
     public String update(@PathVariable String id){
         return "Testing editing  the" +

@@ -4,6 +4,7 @@ import com.jrrtriangle.ams.dto.UserDto;
 import com.jrrtriangle.ams.entity.Privilege;
 import com.jrrtriangle.ams.entity.Role;
 import com.jrrtriangle.ams.entity.UserEntity;
+import com.jrrtriangle.ams.exception.UserNotFoundException;
 import com.jrrtriangle.ams.repository.RoleRepository;
 import com.jrrtriangle.ams.repository.UserRepository;
 import com.jrrtriangle.ams.service.PrivilegeSevice;
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService {
             userEntity.getRoles().forEach(role->authorities.add(new SimpleGrantedAuthority(role.getRole())));
 
             return new User(userEntity.getEmail(),userEntity.getPassword(), authorities);
-       // return new User("raihan","password",  new ArrayList<>());
+
 
     }
 
@@ -69,12 +70,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity findUserById(Long id) {
+    public UserEntity findUserById(Long id) throws UserNotFoundException {
         Optional<UserEntity> userEntity = userRepository.findById(id);
         if(userEntity.isPresent()){
             return userEntity.get();
         }else{
-            throw new RuntimeException("User not found");
+            throw new UserNotFoundException("User not found by id: "+id);
         }
 
     }

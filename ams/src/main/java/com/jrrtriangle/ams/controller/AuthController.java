@@ -2,6 +2,7 @@ package com.jrrtriangle.ams.controller;
 
 import com.jrrtriangle.ams.entity.JwtRequest;
 import com.jrrtriangle.ams.entity.JwtResponse;
+import com.jrrtriangle.ams.exception.BadCredentialException;
 import com.jrrtriangle.ams.service.UserService;
 import com.jrrtriangle.ams.utility.JwtUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,12 @@ public class AuthController {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @PostMapping("/authenticate")
     public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) throws Exception {
-        System.out.println("it is workding "+jwtRequest.getUsername());
+        System.out.println("it is working "+jwtRequest.getUsername());
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(),
                     jwtRequest.getPassword()));
         }catch (BadCredentialsException e){
-            throw new Exception("INVALID_CREDENTIALS",e);
+            throw new BadCredentialException("Invalid credentials");
         }
         final UserDetails userDetails = userService.loadUserByUsername(jwtRequest.getUsername());
         final String token = jwtUtility.genrateToken((userDetails));
