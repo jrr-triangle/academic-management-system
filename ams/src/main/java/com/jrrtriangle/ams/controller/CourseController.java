@@ -1,6 +1,9 @@
 package com.jrrtriangle.ams.controller;
 
 import com.jrrtriangle.ams.entity.Course;
+import com.jrrtriangle.ams.entity.CourseMaterials;
+import com.jrrtriangle.ams.exception.CourseNotFoundException;
+import com.jrrtriangle.ams.exception.EmptyException;
 import com.jrrtriangle.ams.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +28,8 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addCourse(course) );
     }
     @PutMapping
-    public ResponseEntity<Course> editCourse(@RequestBody Course course,@PathVariable Long id){
-        Course findCourse = courseService.findCourseById(id);
+    public ResponseEntity<Course> editCourse(@RequestBody Course course,@PathVariable Long id) throws CourseNotFoundException {
+        Course findCourse = courseService. findCourseById(id);
         if(!course.getTitle().isEmpty()){
             findCourse.setTitle(course.getTitle());
         }
@@ -45,8 +48,19 @@ public class CourseController {
 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable Long id){
+    public ResponseEntity<Course> getCourseById(@PathVariable Long id) throws CourseNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).body(courseService.findCourseById(id));
     }
 
+    @PostMapping("/materials")
+    public ResponseEntity<CourseMaterials> createCourseMaterials(@RequestBody CourseMaterials courseMaterials) throws EmptyException {
+        if(courseMaterials.getUrl()==null){
+            throw new EmptyException("Course materials must have url");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addCourseMaterials(courseMaterials));
+    }
+    @GetMapping("/materials/{id}")
+    public ResponseEntity<CourseMaterials> getCourseMaterials(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getCourseMaterialsById(id));
+    }
 }

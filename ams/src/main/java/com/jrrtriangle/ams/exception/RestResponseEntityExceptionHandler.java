@@ -2,6 +2,7 @@ package com.jrrtriangle.ams.exception;
 
 import com.jrrtriangle.ams.entity.ErrorMessage;
 import io.jsonwebtoken.ExpiredJwtException;
+import net.bytebuddy.implementation.bind.annotation.Empty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -51,6 +52,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(CourseNotFoundException.class)
     public ResponseEntity<ErrorMessage> courseNotFoundException(CourseNotFoundException exception,WebRequest request){
+        ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    }
+    @ExceptionHandler(EmptyException.class)
+    public ResponseEntity<ErrorMessage> emptyException(EmptyException exception,WebRequest request){
+        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST,exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+    }
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorMessage> notFoundException(NotFoundException exception,WebRequest request){
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND,exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
