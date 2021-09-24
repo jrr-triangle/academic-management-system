@@ -3,6 +3,7 @@ package com.jrrtriangle.ams.controller;
 import com.jrrtriangle.ams.dto.UserDto;
 import com.jrrtriangle.ams.entity.Role;
 import com.jrrtriangle.ams.entity.UserEntity;
+import com.jrrtriangle.ams.exception.UserNotFoundException;
 import com.jrrtriangle.ams.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class UserController {
 
     @PostMapping
     @RequestMapping("/update/{id}")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserEntity user,@PathVariable Long id){
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserEntity user,@PathVariable Long id) throws UserNotFoundException {
         UserEntity findUser = userService.findUserById(id);
         if(user.getFirstname()!=null && !user.getFirstname().isEmpty()){
             findUser.setFirstname(user.getFirstname());
@@ -51,7 +52,7 @@ public class UserController {
 
     @PostMapping
     @RequestMapping("/role/update/{id}")
-    public ResponseEntity<UserDto> updateUserRole(@RequestBody UserEntity user,@PathVariable Long id){
+    public ResponseEntity<UserDto> updateUserRole(@RequestBody UserEntity user,@PathVariable Long id) throws UserNotFoundException {
         UserEntity findUser = userService.findUserById(id);
         if(user.getFirstname()!=null && !user.getFirstname().isEmpty()){
             findUser.setFirstname(user.getFirstname());
