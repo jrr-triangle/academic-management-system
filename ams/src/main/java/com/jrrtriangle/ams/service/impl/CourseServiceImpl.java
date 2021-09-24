@@ -6,6 +6,7 @@ import com.jrrtriangle.ams.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CourseServiceImpl implements CourseService {
     @Autowired
@@ -18,5 +19,14 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course addCourse(Course course) {
         return courseRepository.save(course);
+    }
+
+    @Override
+    public Course findCourseById(Long id) {
+        Optional<Course> course = courseRepository.findById(id);
+        if(!course.isPresent()){
+
+        }
+        return null;
     }
 }
